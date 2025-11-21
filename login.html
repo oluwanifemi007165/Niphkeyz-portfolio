@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Niphkeyz Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <!-- LOGIN FORM -->
+  <div class="login-container" id="loginBox">
+    <h1 class="logo">Niphkeyz</h1>
+    <form id="loginForm">
+      <input type="text" id="loginUser" placeholder="Phone number, username, or email" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit" class="btn">Log in</button>
+    </form>
+
+    <div class="divider"><span>OR</span></div>
+    <a href="#" class="facebook-login">Log in with Facebook</a>
+    <a href="#" class="forgot" id="forgotLink">Forgot password?</a>
+  </div>
+
+  <!-- FORGOT PASSWORD -->
+  <div class="login-container" id="forgotBox" style="display: none;">
+    <h1 class="logo">Niphkeyz</h1>
+    <form id="forgotForm">
+      <input type="email" id="forgotEmail" placeholder="Enter your email or phone" required>
+      <button type="submit" class="btn">Send Code</button>
+    </form>
+    <p style="margin-top: 15px; font-size: 12px;">
+      Remembered? <a href="#" id="backToLogin" style="color: #3897f0; text-decoration: none;">Back to Login</a>
+    </p>
+  </div>
+
+  <!-- RESET PASSWORD -->
+  <div class="login-container" id="resetBox" style="display: none;">
+    <h1 class="logo">Niphkeyz</h1>
+    <form id="resetForm">
+      <input type="text" id="resetCode" placeholder="Enter code" required>
+      <input type="password" id="newPassword" placeholder="New password" required>
+      <button type="submit" class="btn">Reset Password</button>
+    </form>
+    <p style="margin-top: 15px; font-size: 12px;">
+      <a href="#" id="backToLogin2">Back to Login</a>
+    </p>
+  </div>
+
+  <div class="signup-box">
+    <p>Don’t have an account? <a href="signup.html">Sign up</a></p>
+  </div>
+
+  <footer>
+    <p>© 2025 Niphkeyz</p>
+  </footer>
+
+  <script src="login.js"></script>
+</body>
+</html>

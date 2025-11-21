@@ -1,0 +1,200 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NiphChat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0b0b0b;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 400px;
+      height: 600px;
+      background: #111;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .chat-header {
+      background: #0078ff;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #1a1a1a;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 10px 14px;
+      border-radius: 15px;
+      word-wrap: break-word;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .left {
+      align-self: flex-start;
+      background: #222;
+      border-top-left-radius: 0;
+    }
+
+    .right {
+      align-self: flex-end;
+      background: #0078ff;
+      border-top-right-radius: 0;
+    }
+
+    .message img, .message video {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 5px;
+    }
+
+    .input-area {
+      display: flex;
+      background: #1a1a1a;
+      padding: 10px;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-label {
+      background: #333;
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 8px;
+      font-size: 14px;
+    }
+
+    #messageInput {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #222;
+      color: #fff;
+    }
+
+    #sendBtn, #switchBtn {
+      background: #0078ff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin-left: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #sendBtn:hover, #switchBtn:hover {
+      background: #005ed1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header" id="chatHeader">👤 You are chatting as <strong>User 1</strong></div>
+
+    <div class="chat-box" id="chatBox"></div>
+
+    <div class="input-area">
+      <label for="fileInput" class="file-label">📎</label>
+      <input type="file" id="fileInput" accept="image/*,video/*">
+
+      <input type="text" id="messageInput" placeholder="Type a message...">
+      <button id="sendBtn">Send</button>
+      <button id="switchBtn">🔁</button>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const fileInput = document.getElementById("fileInput");
+    const switchBtn = document.getElementById("switchBtn");
+    const chatHeader = document.getElementById("chatHeader");
+
+    let currentUser = "user1"; // start as user1
+
+    function addMessage(content, type = "text", sender = "user1") {
+      const message = document.createElement("div");
+      message.classList.add("message", sender === "user1" ? "right" : "left");
+
+      if (type === "text") {
+        message.textContent = content;
+      } else if (type === "image") {
+        const img = document.createElement("img");
+        img.src = content;
+        message.appendChild(img);
+      } else if (type === "video") {
+        const video = document.createElement("video");
+        video.src = content;
+        video.controls = true;
+        message.appendChild(video);
+      }
+
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", () => {
+      const text = messageInput.value.trim();
+      if (text !== "") {
+        addMessage(text, "text", currentUser);
+        messageInput.value = "";
+      }
+    });
+
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (file) {
+        const url = URL.createObjectURL(file);
+        if (file.type.startsWith("image/")) {
+          addMessage(url, "image", currentUser);
+        } else if (file.type.startsWith("video/")) {
+          addMessage(url, "video", currentUser);
+        }
+      }
+      fileInput.value = "";
+    });
+
+    switchBtn.addEventListener("click", () => {
+      currentUser = currentUser === "user1" ? "user2" : "user1";
+      chatHeader.innerHTML = `👤 You are chatting as <strong>${currentUser === "user1" ? "User 1" : "User 2"}</strong>`;
+    });
+  </script>
+</body>
+</html> -->
+
