@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email - Niphkeyz</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container {
+      background: #111;
+      padding: 40px 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      border: 1px solid #333;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 46px;
+      font-style: italic;
+      font-weight: bold;
+      margin-bottom: 10px;
+      background: linear-gradient(45deg, #3897f0, #8e44ad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    h2 {
+      margin: 10px 0 8px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .email {
+      color: #3897f0;
+      font-weight: bold;
+      word-break: break-all;
+    }
+    input {
+      width: 100%;
+      padding: 16px;
+      margin: 16px 0;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 12px;
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 4px;
+      outline: none;
+      transition: border 0.3s;
+    }
+    input:focus {
+      border-color: #3897f0;
+      box-shadow: 0 0 0 2px rgba(56, 151, 240, 0.3);
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .verify-btn {
+      background: rgb(0, 0, 255);
+      color: white;
+    }
+    .verify-btn:hover { background: #1877f0; }
+    .resend-btn {
+      background: #333;
+      color: #ccc;
+    }
+    .resend-btn:hover { background: #444; }
+    #timer {
+      margin: 16px 0;
+      font-size: 15px;
+      font-weight: bold;
+    }
+    .footer-link {
+      margin-top: 25px;
+      font-size: 13px;
+    }
+    .footer-link a {
+      color: #3897f0;
+      text-decoration: none;
+    }
+    .footer-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="logo">Niphkeyz</h1>
+    <h2>Verify Your Email</h2>
+    <p>Enter the 6-digit code we sent to</p>
+    <div class="email" id="userEmail">your email</div>
+
+    <input type="text" id="code" placeholder="------" maxlength="6" inputmode="numeric" autocomplete="off">
+
+    <button class="verify-btn" onclick="verifyCode()">Verify Email</button>
+
+    <div id="timer">Code expires in: 05:00</div>
+
+    <button class="resend-btn" onclick="generateNewCode()">Resend Code</button>
+
+    <div class="footer-link">
+      <a href="login.html">Back to Login</a>
+    </div>
+  </div>
+
+  <script>
+    // Load pending verification
+    let pending = JSON.parse(localStorage.getItem("pendingVerification"));
+
+    if (!pending || !pending.email) {
+      alert("No verification in progress.");
+      window.location.href = "login.html";
+    }
+
+    // Display email
+    document.getElementById("userEmail").textContent = pending.email;
+
+    // Auto-focus + format input
+    const input = document.getElementById("code");
+    input.focus();
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    // Check expiry on load
+    if (Date.now() > pending.expiresAt) {
+      alert("Code expired! Generating a new one...");
+      generateNewCode();
+    } else {
+      startCountdown();
+    }
+
+    function verifyCode() {
+      const code = input.value.trim();
+      if (code.length !== 6) {
+        alert("Please enter the full 6-digit code.");
+        return;
+      }
+      if (Date.now() > pending.expiresAt) {
+        alert("Code has expired!");
+        generateNewCode();
+        return;
+      }
+      if (code === pending.code.toString()) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        const i = users.findIndex(u => u.email === pending.email);
+        if (i !== -1) {
+          users[i].verified = true;
+          users[i].verificationCode = null;
+          users[i].codeExpiresAt = null;
+          localStorage.setItem("users", JSON.stringify(users));
+          localStorage.setItem("currentUser", JSON.stringify(users[i]));
+        }
+        localStorage.removeItem("pendingVerification");
+        alert("Email verified! Welcome to Niphkeyz!");
+        window.location.href = "home.html";
+      } else {
+        alert("Invalid code. Try again.");
+      }
+    }
+
+    function generateNewCode() {
+      const newCode = Math.floor(100000 + Math.random() * 900000);
+      const expiresAt = Date.now() + 5 * 60 * 1000;
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const i = users.findIndex(u => u.email === pending.email);
+      if (i !== -1) {
+        users[i].verificationCode = newCode;
+        users[i].codeExpiresAt = expiresAt;
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+
+      pending.code = newCode;
+      pending.expiresAt = expiresAt;
+      localStorage.setItem("pendingVerification", JSON.stringify(pending));
+
+      alert(`New code sent!\n\n${newCode}\n\nExpires in 5 minutes`);
+      input.value = "";
+      input.focus();
+      startCountdown();
+    }
+
+    function startCountdown() {
+      const timer = document.getElementById("timer");
+      const interval = setInterval(() => {
+        const left = Math.max(0, Math.floor((pending.expiresAt - Date.now()) / 1000));
+        if (left === 0) {
+          timer.textContent = "Code expired! Generating new...";
+          timer.style.color = "#e74c3c";
+          clearInterval(interval);
+          setTimeout(generateNewCode, 1500);
+        } else {
+          const m = String(Math.floor(left / 60)).padStart(2, '0');
+          const s = String(left % 60).padStart(2, '0');
+          timer.textContent = `Code expires in: ${m}:${s}`;
+          timer.style.color = left <= 60 ? "#e67e22" : "#4CAF50";
+        }
+      }, 1000);
+    }
+
+    // Allow Enter key to verify
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") verifyCode();
+    });
+  </script>
+</body>
+</html>

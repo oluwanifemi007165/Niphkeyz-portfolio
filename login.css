@@ -22,6 +22,9 @@ body {
   font-size: 38px;
   margin-bottom: 30px;
   font-style: italic;
+  background: linear-gradient(45deg, #3897f0, #8e44ad);
+ -webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
 .login-container input {

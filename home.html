@@ -1,200 +1,265 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NiphChat</title>
+  <title>Home - Niphkeyz</title>
   <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      font-family: Arial, sans-serif;
-      background-color: #0b0b0b;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+      background: #000;
       color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding: 20px;
     }
-
-    .chat-container {
-      width: 400px;
-      height: 600px;
+    .container {
+      max-width: 520px;
+      margin: 30px auto;
       background: #111;
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      border-radius: 18px;
+      padding: 35px;
+      border: 1px solid #333;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.7);
     }
-
-    .chat-header {
-      background: #0078ff;
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 52px;
+      font-style: italic;
       text-align: center;
-      padding: 10px;
-      font-weight: bold;
-      letter-spacing: 1px;
+      background: linear-gradient(45deg, #3897f0, #9b59b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
     }
-
-    .chat-box {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .welcome {
+      text-align: center;
+      font-size: 26px;
+      margin: 20px 0;
+      font-weight: 600;
+    }
+    .section {
+      margin: 35px 0;
+      padding: 25px;
       background: #1a1a1a;
+      border-radius: 14px;
+      border: 1px solid #333;
     }
-
-    .message {
-      max-width: 70%;
-      padding: 10px 14px;
-      border-radius: 15px;
-      word-wrap: break-word;
-      animation: fadeIn 0.3s ease;
+    h2 {
+      font-size: 22px;
+      margin-bottom: 18px;
+      color: #3897f0;
+      text-align: center;
     }
-
-    .left {
-      align-self: flex-start;
-      background: #222;
-      border-top-left-radius: 0;
-    }
-
-    .right {
-      align-self: flex-end;
-      background: #0078ff;
-      border-top-right-radius: 0;
-    }
-
-    .message img, .message video {
+    input {
       width: 100%;
-      border-radius: 10px;
-      margin-top: 5px;
-    }
-
-    .input-area {
-      display: flex;
-      background: #1a1a1a;
-      padding: 10px;
-      align-items: center;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-
-    .file-label {
-      background: #333;
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-right: 8px;
-      font-size: 14px;
-    }
-
-    #messageInput {
-      flex: 1;
-      padding: 8px;
-      border: none;
-      border-radius: 8px;
-      outline: none;
+      padding: 16px;
+      margin: 12px 0;
       background: #222;
-      color: #fff;
-    }
-
-    #sendBtn, #switchBtn {
-      background: #0078ff;
+      border: 1px solid #444;
+      border-radius: 12px;
       color: white;
+      font-size: 16px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #3897f0;
+      box-shadow: 0 0 0 3px rgba(56,151,240,0.2);
+    }
+    button {
+      padding: 14px;
       border: none;
-      padding: 8px 12px;
-      margin-left: 8px;
-      border-radius: 8px;
+      border-radius: 12px;
+      font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
     }
-
-    #sendBtn:hover, #switchBtn:hover {
-      background: #005ed1;
+    .shorten-btn {
+      width: 100%;
+      background: rgb(0, 0, 255);
+      color: white;
+      font-size: 16px;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .shorten-btn:hover { background: #1877f0; }
+    .result {
+      background: #000;
+      padding: 16px;
+      border-radius: 12px;
+      margin: 15px 0;
+      border: 2px solid #3897f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
+    .short-link {
+      font-weight: bold;
+      color: #3897f0;
+    }
+    .copy-btn, .visit-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    .copy-btn { background: #27ae60; }
+    .visit-btn { background: #8e44ad; }
+    .links-list {
+      margin-top: 20px;
+    }
+    .link-item {
+      background: #222;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .logout {
+      display: block;
+      margin: 40px auto 0;
+      background: #e74c3c;
+      width: fit-content;
+      padding: 14px 32px;
+      font-size: 16px;
+    }
+    .logout:hover { background: #c0392b; }
+    .count { color: #3897f0; }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header" id="chatHeader">👤 You are chatting as <strong>User 1</strong></div>
 
-    <div class="chat-box" id="chatBox"></div>
+  <div class="container">
+    <h1 class="logo">Niphkeyz</h1>
+    <div class="welcome" id="welcomeMessage"></div>
 
-    <div class="input-area">
-      <label for="fileInput" class="file-label">📎</label>
-      <input type="file" id="fileInput" accept="image/*,video/*">
+    <!-- URL Shortener Section -->
+    <div class="section">
+      <h2>URL Shortener</h2>
+      <input type="url" id="longUrl" placeholder="Paste your long URL here (e.g. https://youtube.com/...)" required>
+      <button class="shorten-btn" onclick="shortenUrl()">Shorten URL</button>
 
-      <input type="text" id="messageInput" placeholder="Type a message...">
-      <button id="sendBtn">Send</button>
-      <button id="switchBtn">🔁</button>
+      <div id="result"></div>
     </div>
+
+    <!-- User's Short Links History -->
+    <div class="section">
+      <h2>Your Short Links (<span class="count" id="linkCount">0</span>)</h2>
+      <div id="linksList" class="links-list">
+        <i>Shorten a URL to see it here!</i>
+      </div>
+    </div>
+
+    <button class="logout" onclick="logout()">Log Out</button>
   </div>
 
   <script>
-    const chatBox = document.getElementById("chatBox");
-    const messageInput = document.getElementById("messageInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const fileInput = document.getElementById("fileInput");
-    const switchBtn = document.getElementById("switchBtn");
-    const chatHeader = document.getElementById("chatHeader");
-
-    let currentUser = "user1"; // start as user1
-
-    function addMessage(content, type = "text", sender = "user1") {
-      const message = document.createElement("div");
-      message.classList.add("message", sender === "user1" ? "right" : "left");
-
-      if (type === "text") {
-        message.textContent = content;
-      } else if (type === "image") {
-        const img = document.createElement("img");
-        img.src = content;
-        message.appendChild(img);
-      } else if (type === "video") {
-        const video = document.createElement("video");
-        video.src = content;
-        video.controls = true;
-        message.appendChild(video);
-      }
-
-      chatBox.appendChild(message);
-      chatBox.scrollTop = chatBox.scrollHeight;
+    // LOGIN CHECK
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) {
+      alert("please log in first");
+      window.location.replace("login.html");
+    } else {
+      document.getElementById("welcomeMessage").innerHTML =
+      `Welcome back, <strong>${currentUser.firstName} ${currentUser.lastName}</strong>!`;
     }
 
-    sendBtn.addEventListener("click", () => {
-      const text = messageInput.value.trim();
-      if (text !== "") {
-        addMessage(text, "text", currentUser);
-        messageInput.value = "";
-      }
-    });
+    function logout() {
+      localStorage.removeItem("currentUser");
+      alert("Logged out successfully!");
+      window.location.replace("login.html");
+    }
 
-    fileInput.addEventListener("change", () => {
-      const file = fileInput.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        if (file.type.startsWith("image/")) {
-          addMessage(url, "image", currentUser);
-        } else if (file.type.startsWith("video/")) {
-          addMessage(url, "video", currentUser);
-        }
-      }
-      fileInput.value = "";
-    });
+    // URL SHORTENER LOGIC
+    const DOMAIN = "https://niphkeyz.co/";
 
-    switchBtn.addEventListener("click", () => {
-      currentUser = currentUser === "user1" ? "user2" : "user1";
-      chatHeader.innerHTML = `👤 You are chatting as <strong>${currentUser === "user1" ? "User 1" : "User 2"}</strong>`;
-    });
+    function generateCode() {
+      return Math.random().toString(36).substring(2, 8).toUpperCase();
+    }
+
+    // link storage 
+    function shortenUrl() {
+      const longUrl = document.getElementById("longUrl").value.trim();
+
+      if (!longUrl || !longUrl.match(/^https?:\/\//i)) {
+        alert("Please enter a valid URL starting with http:// or https://");
+        return;
+      }
+
+      const code = generateCode();
+      const shortUrl = DOMAIN + code;
+
+      // Load all saved links
+      let allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+
+      // replace long link 
+      allLinks[currentUser.email] = [{
+        code,
+        short: shortUrl,
+        long: longUrl,
+        date: new Date().toLocaleString()
+      }];
+
+      // Save back
+      localStorage.setItem("shortLinks", JSON.stringify(allLinks));
+
+      // Show result
+      document.getElementById("result").innerHTML = `
+        <div class="result">
+          <div>
+            <div class="short-link">${shortUrl}</div>
+            <small>→ ${longUrl.substring(0,50)}${longUrl.length > 50 ? "..." : ""}</small>
+          </div>
+          <div>
+            <button class="copy-btn" onclick="copyText('${shortUrl}')">Copy</button>
+            <button class="visit-btn" onclick="window.open('${longUrl}')">Visit</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("longUrl").value = "";
+      loadLinks();
+    }
+
+    // copy function
+    function copyText(text) {
+      navigator.clipboard.writeText(text.trim())
+        .then(() => {
+          alert("Copied!");
+        })
+        .catch(err => {
+          console.error("Copy failed", err);
+        });
+    }
+
+    function loadLinks() {
+      const allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+      const userLinks = allLinks[currentUser.email] || [];
+
+      document.getElementById("linkCount").textContent = userLinks.length;
+
+      if (userLinks.length === 0) {
+        document.getElementById("linksList").innerHTML = "<i>No links yet. Shorten one above!</i>";
+        return;
+      }
+
+      document.getElementById("linksList").innerHTML = userLinks.map(link => `
+        <div class="link-item">
+          <div>
+            <div class="short-link">${link.short}</div>
+            <small>→ ${link.long.substring(0,45)}${link.long.length > 45 ? "..." : ""}</small><br>
+            <small style="color:#777;">${link.date}</small>
+          </div>
+          <div>
+            <button class="copy-btn" onclick="copyText('${link.short}')">Copy</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    loadLinks();
   </script>
 </body>
-</html> -->
-
+</html>

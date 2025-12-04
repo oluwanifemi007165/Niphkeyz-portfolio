@@ -24,6 +24,9 @@ body {
   margin-bottom: 20px;
   font-family: Georgia;
   font-style: italic;
+  background: linear-gradient(45deg, #3897f0, #8e44ad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 input, select {
