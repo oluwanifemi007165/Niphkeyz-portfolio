@@ -160,7 +160,7 @@
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!currentUser) {
       alert("please log in first");
-      window.location.replace("login.html");
+      window.location.replace("index.html");
     } else {
       document.getElementById("welcomeMessage").innerHTML =
       `Welcome back, <strong>${currentUser.firstName} ${currentUser.lastName}</strong>!`;
@@ -169,7 +169,7 @@
     function logout() {
       localStorage.removeItem("currentUser");
       alert("Logged out successfully!");
-      window.location.replace("login.html");
+      window.location.replace("index.html");
     }
 
     // URL SHORTENER LOGIC
