@@ -1,4 +1,4 @@
-// signup.js 
+// signup.js - FULLY WORKING WITH EYE TOGGLE
 
 document.getElementById("nextBtn").addEventListener("click", function () {
   let email = document.getElementById("signupEmail").value.trim();
@@ -7,19 +7,16 @@ document.getElementById("nextBtn").addEventListener("click", function () {
   let password = document.getElementById("signupPassword").value;
   let confirmPassword = document.getElementById("confirmPassword").value;
 
-  // Basic required 
   if (!email || !firstName || !lastName || !password || !confirmPassword) {
     alert("Please fill in all fields.");
     return;
   }
 
-  // Password match
   if (password !== confirmPassword) {
     alert("Passwords do not match!");
     return;
   }
 
-  // PASSWORD STRENGTH CHECK
   const minLength = 8;
   const hasNumber = /\d/;
   const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
@@ -39,14 +36,12 @@ document.getElementById("nextBtn").addEventListener("click", function () {
     return;
   }
 
-  // Check if email already exists
   let users = JSON.parse(localStorage.getItem("users")) || [];
   if (users.some(user => user.email === email)) {
     alert("This email is already registered!");
     return;
   }
 
-  
   document.getElementById("step1").style.display = "none";
   document.getElementById("step2").style.display = "block";
 });
@@ -55,9 +50,8 @@ document.getElementById("nextBtn").addEventListener("click", function () {
 document.getElementById("signupForm").addEventListener("submit", function(e) {
   e.preventDefault();
 
-  // Generating 6 digit code 
   const verificationCode = Math.floor(100000 + Math.random() * 900000);
-  const codeExpiresAt = Date.now() + (5 * 60 * 1000); // 5 minutes from now
+  const codeExpiresAt = Date.now() + (5 * 60 * 1000);
 
   let newUser = {
     email: document.getElementById("signupEmail").value.trim(),
@@ -71,24 +65,21 @@ document.getElementById("signupForm").addEventListener("submit", function(e) {
     phone: "",
     verified: false,
     verificationCode: verificationCode,
-    codeExpiresAt: codeExpiresAt,       
+    codeExpiresAt: codeExpiresAt,
     joinedDate: new Date().toISOString()
   };
 
-  // Save user
   let users = JSON.parse(localStorage.getItem("users")) || [];
   users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
 
-  // Save pending verification 
   localStorage.setItem("pendingVerification", JSON.stringify({
     email: newUser.email,
     code: verificationCode,
     name: newUser.firstName,
-    expiresAt: codeExpiresAt               
+    expiresAt: codeExpiresAt
   }));
 
-  
   alert(
 `Account created successfully!
 
@@ -102,6 +93,17 @@ Expires in 5 minutes!
 Enter it on the next page to activate your account.`
   );
 
-  // Redirect to verification
   window.location.href = "verify.html";
 });
+
+// TOGGLE EYE FUNCTION
+function toggleEye(icon, id) {
+  const field = document.getElementById(id);
+  if (field.type === "password") {
+    field.type = "text";
+    icon.classList.replace("fa-eye", "fa-eye-slash");
+  } else {
+    field.type = "password";
+    icon.classList.replace("fa-eye-slash", "fa-eye");
+  }
+}

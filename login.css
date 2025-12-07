@@ -42,6 +42,34 @@ body {
   color: #888;
 }
 
+.pass-box {
+  position: relative;
+  width: 85%;
+  margin: 4px auto;
+}
+
+.pass-box input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border: 1px solid #333;
+  border-radius: 3px;
+  background: #111;
+  color: white;
+  outline: none;
+}
+
+.eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.eye:hover { color: #3897f0; }
+
 .btn {
   width: 92%;
   padding: 12px;
@@ -143,8 +171,46 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s; 
 }
 
+input:focus {
+  outline: none;
+  border-color: #3897f0;
+  box-shadow: 0 0 0 3px rgba(56,151,240,0.2);
+}
+
 
 /* Optional: change placeholder color slightly on hover */
 /* .login-container:hover input::placeholder {
   color: #ff6666; 
 } */
+
+.pass-wrapper {
+  position: relative;
+  width: 78%;
+  margin: 4px 13px;
+}
+
+.pass-wrapper input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  /* border: 1px solid #333; */
+  border-radius: 3px;
+  background: #111;
+  color: white;
+  outline: none;
+}
+
+.eye-icon {
+  position: absolute;
+  right: -33px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s;
+  margin-left: 10px;
+}
+
+.eye-icon:hover {
+  color: #3897f0;
+}

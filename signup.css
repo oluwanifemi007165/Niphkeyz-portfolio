@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #000; /* Black background */
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,12 +36,18 @@ input, select {
   border: 1px solid #333;
   background: #111;
   color: #fff;
-  border-radius: 0; /* Sharp edges */
+  border-radius: 0;
   outline: none;
 }
 
 input::placeholder {
   color: #aaa;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3897f0;
+  box-shadow: 0 0 0 3px rgba(56,151,240,0.2);
 }
 
 .btn {
@@ -50,7 +56,7 @@ input::placeholder {
   color: white;
   border: none;
   padding: 12px;
-  border-radius: 6px; /* Sharp edges */
+  border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
   font-size: 16px;
@@ -102,33 +108,56 @@ footer {
 }
 
 p {
-    color: #fff;
+  color: #fff;
 }
 
 .login-link {
-    color: #3897f0;
-    font-weight: bold;
-    text-decoration: none;
+  color: #3897f0;
+  font-weight: bold;
+  text-decoration: none;
 }
 
 .login-link:hover {
-    text-decoration: underline;
-}
-
-.login-container:hover {
-  border: 2px solid red; 
-  transition: all 0.3s ease;
-}
-
-.login-container:hover input {
-  border: 2px solid red; 
+  text-decoration: underline;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #111 inset !important; 
-  -webkit-text-fill-color: white !important; 
-  transition: background-color 5000s ease-in-out 0s; 
+  -webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* EYE TOGGLE STYLES */
+.pass-wrapper {
+  position: relative;
+  width: 85%;
+  margin: 4px 1px;
+}
+
+.pass-wrapper input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  /* border: 1px solid #333; */
+  background: #111;
+  color: #fff;
+  border-radius: 0;
+  outline: none;
+}
+
+.eye-icon {
+  position: absolute;
+  right: -33px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.eye-icon:hover {
+  color: #3897f0;
 }
