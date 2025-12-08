@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Redirecting...</title>
-  <script>
-    // Get the code from the URL path
-    const code = window.location.pathname.replace("/", "").toUpperCase();
-
-    // Get all saved links
-    const allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
-
-    let longUrl = null;
-
-    // Search all users’ links
-    for (let email in allLinks) {
-      const userLinks = allLinks[email];
-      const found = userLinks.find(link => link.code === code);
-
-      if (found) {
-        longUrl = found.long;
-        break;
-      }
-    }
-
-    // Redirect if found
-    if (longUrl) {
-      window.location.href = longUrl;
-    } else {
-      document.body.innerHTML = "<h2 style='color:white;'>Invalid short URL</h2>";
-    }
-  </script>
 </head>
-<body style="background:black;color:white;font-family:sans-serif;">
-  <h2>Redirecting...</h2>
+<body>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+
+  const allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+  const allUsers = Object.keys(allLinks);
+
+  let found = false;
+
+  for (let email of allUsers) {
+    const userLinks = allLinks[email] || [];
+    const link = userLinks.find(l => l.code === code);
+    if (link) {
+      window.location.href = link.long; // redirect to long URL
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    alert("Link not found!");
+  }
+</script>
 </body>
 </html>
- 

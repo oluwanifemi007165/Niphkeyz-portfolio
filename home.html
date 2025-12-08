@@ -156,110 +156,115 @@
   </div>
 
   <script>
-    // LOGIN CHECK
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (!currentUser) {
-      alert("please log in first");
-      window.location.replace("index.html");
-    } else {
-      document.getElementById("welcomeMessage").innerHTML =
+  // LOGIN CHECK
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser) {
+    alert("please log in first");
+    window.location.replace("index.html");
+  } else {
+    document.getElementById("welcomeMessage").innerHTML =
       `Welcome back, <strong>${currentUser.firstName} ${currentUser.lastName}</strong>!`;
-    }
+  }
 
-    function logout() {
-      localStorage.removeItem("currentUser");
-      alert("Logged out successfully!");
-      window.location.replace("index.html");
-    }
+  function logout() {
+    localStorage.removeItem("currentUser");
+    alert("Logged out successfully!");
+    window.location.replace("index.html");
+  }
 
-    // URL SHORTENER LOGIC
-    const DOMAIN = "https://niphkeyz.co/";
+  // URL SHORTENER LOGIC
+  // const DOMAIN = "https://niphkeyz.co/";
+  const DOMAIN = "http://127.0.0.1:5501/";
 
-    function generateCode() {
-      return Math.random().toString(36).substring(2, 8).toUpperCase();
-    }
+  function generateCode() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  }
 
-    // link storage 
-    function shortenUrl() {
-      const longUrl = document.getElementById("longUrl").value.trim();
+  // Shorten URL and save
+  function shortenUrl() {
+    const longUrl = document.getElementById("longUrl").value.trim();
 
-      if (!longUrl || !longUrl.match(/^https?:\/\//i)) {
-        alert("Please enter a valid URL starting with http:// or https://");
-        return;
-      }
+    // if (!longUrl || !longUrl.match(/^https?:\/\//i)) {
+    //   alert("Please enter a valid URL starting with http:// or https://");
+    //   return;
+    // }
 
-      const code = generateCode();
-      const shortUrl = DOMAIN + code;
+    const code = generateCode();
+    // Use redirect.html with code parameter
+    const shortUrl = DOMAIN + "redirect.html?code=" + code;
 
-      // Load all saved links
-      let allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+    // Load all saved links
+    let allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+    // allLinks[currentUser.email] = allLinks[currentUser.email] || [];
 
-      // replace long link 
-      allLinks[currentUser.email] = [{
-        code,
-        short: shortUrl,
-        long: longUrl,
-        date: new Date().toLocaleString()
-      }];
+    // Save new link
+    allLinks[currentUser.email] = [{
+      code,
+      short: shortUrl,
+      long: longUrl,
+      date: new Date().toLocaleString()
+    }];
 
-      // Save back
-      localStorage.setItem("shortLinks", JSON.stringify(allLinks));
+    // Save back to localStorage
+    localStorage.setItem("shortLinks", JSON.stringify(allLinks));
 
-      // Show result
-      document.getElementById("result").innerHTML = `
-        <div class="result">
-          <div>
-            <div class="short-link">${shortUrl}</div>
-            <small>→ ${longUrl.substring(0,50)}${longUrl.length > 50 ? "..." : ""}</small>
-          </div>
-          <div>
-            <button class="copy-btn" onclick="copyText('${shortUrl}')">Copy</button>
-            <button class="visit-btn" onclick="window.open('${longUrl}')">Visit</button>
-          </div>
+    // Show result
+    document.getElementById("result").innerHTML = `
+      <div class="result">
+        <div>
+          <div class="short-link">${shortUrl}</div>
+          <small>→ ${longUrl.substring(0,50)}${longUrl.length > 50 ? "..." : ""}</small>
         </div>
-      `;
-
-      document.getElementById("longUrl").value = "";
-      loadLinks();
-    }
-
-    // copy function
-    function copyText(text) {
-      navigator.clipboard.writeText(text.trim())
-        .then(() => {
-          alert("Copied!");
-        })
-        .catch(err => {
-          console.error("Copy failed", err);
-        });
-    }
-
-    function loadLinks() {
-      const allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
-      const userLinks = allLinks[currentUser.email] || [];
-
-      document.getElementById("linkCount").textContent = userLinks.length;
-
-      if (userLinks.length === 0) {
-        document.getElementById("linksList").innerHTML = "<i>No links yet. Shorten one above!</i>";
-        return;
-      }
-
-      document.getElementById("linksList").innerHTML = userLinks.map(link => `
-        <div class="link-item">
-          <div>
-            <div class="short-link">${link.short}</div>
-            <small>→ ${link.long.substring(0,45)}${link.long.length > 45 ? "..." : ""}</small><br>
-            <small style="color:#777;">${link.date}</small>
-          </div>
-          <div>
-            <button class="copy-btn" onclick="copyText('${link.short}')">Copy</button>
-          </div>
+        <div>
+          <button class="copy-btn" onclick="copyText('${shortUrl}')">Copy</button>
+          <button class="visit-btn" onclick="window.open('${longUrl}')">Visit</button>
         </div>
-      `).join("");
-    }
+      </div>
+    `;
 
+    document.getElementById("longUrl").value = "";
     loadLinks();
-  </script>
+  }
+
+  // copy function
+  function copyText(text) {
+    navigator.clipboard.writeText(text.trim())
+      .then(() => {
+        alert("Copied!");
+      })
+      .catch(err => {
+        console.error("Copy failed", err);
+      });
+  }
+
+  // Load user's saved links
+  function loadLinks() {
+    const allLinks = JSON.parse(localStorage.getItem("shortLinks") || "{}");
+    const userLinks = allLinks[currentUser.email] || [];
+
+    document.getElementById("linkCount").textContent = userLinks.length;
+
+    if (userLinks.length === 0) {
+      document.getElementById("linksList").innerHTML = "<i>No links yet. Shorten one above!</i>";
+      return;
+    }
+
+    document.getElementById("linksList").innerHTML = userLinks.map(link => `
+      <div class="link-item">
+        <div>
+          <div class="short-link">${link.short}</div>
+          <small>→ ${link.long.substring(0,45)}${link.long.length > 45 ? "..." : ""}</small><br>
+          <small style="color:#777;">${link.date}</small>
+        </div>
+        <div>
+          <button class="copy-btn" onclick="copyText('${link.short}')">Copy</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  loadLinks();
+</script>
+
 </body>
 </html>
